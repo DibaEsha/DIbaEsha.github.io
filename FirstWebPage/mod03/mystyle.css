@@ -1,0 +1,170 @@
+/* General Body Styles */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f29e58;
+    color: #333;
+}
+
+/* Centered Container */
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+    padding: 0 20px;
+}
+
+/* Header Styles */
+header {
+    background-color: #123456;
+    color: #ffffff;
+    padding: 20px 0;
+    text-align: center;
+    border-bottom: #e8491d 3px solid;
+}
+
+header h1 {
+    margin: 0;
+}
+
+/* Section Styles */
+section {
+    background: #ffffff;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border: 1px solid #ccc; /* Added border to match mockup */
+}
+
+section h2 {
+     background-color: #4169E1;
+    color: #ffffff;
+    padding: 20px 0;
+    text-align: left;
+	padding-left: 20px;
+    border-bottom: #e8491d 3px solid;
+	
+}
+
+/* Tutorial Section Specific Styles */
+
+section h3 {
+     background-color: #CC5500;
+    color: #ffffff;
+    padding: 20px 0;
+    text-align: left;
+	padding-left: 20px;
+    border-bottom: #e8491d 3px solid;
+	
+}
+.tutorials {
+    text-align: right;
+}
+
+.tutorial-item {
+    margin-bottom: 30px;
+}
+
+.tutorial-item img {
+    margin-top: 15px;
+    max-width: 200px;
+    height: auto;
+    display: block;
+    margin-left: 60px;
+    margin-right: 60px;
+align: left;
+
+}
+
+/* Style for clickable logos */
+.logo-link {
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    border-radius: 8px;
+}
+
+.logo-link:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #35424a;
+    color: white;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Button Styles */
+.button {
+    display: inline-block;
+    background: #D3D3D3;
+    color: #000000;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background: #35424a;
+	color: #ffffff;
+}
+
+
+
+/* Interactive Section Styles */
+.interactive-section {
+    text-align: center;
+}
+
+#datetime-container {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+#colorChangeText {
+    transition: color 0.5s;
+    font-weight: bold;
+}
+
+#hoverImage {
+    margin-top: 15px;
+    max-width: 100%;
+    height: auto;
+    border: 5px solid #ddd;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+#hoverImage:hover {
+    transform: scale(1.02);
+}
+

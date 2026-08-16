@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title> Canvas demo </title>
+  <style>
+      #mycanvas {border:1px solid;}
+  </style>
+  
+      <script>
+        function init() {
+            setImageOne();
+        }
+
+        function setImageOne() { setImage('bcitstudent.jpg'); }
+
+        function setImageTwo() { setImage('canada.jpg'); }
+
+        function setImage(src) {
+            var canvas = document.getElementById("mycanvas");
+            var context = canvas.getContext("2d");
+            var img = new Image();
+            img.src = src;
+	    context.clearRect(0, 0, canvas.width, canvas.height);
+            context.drawImage(img, 0,0);
+        }
+      </script>
+    </head>
+  <body onload="init()">
+  
+  <h1> BCIT Map WITH html5 canvas</h1>
+  
+    <div>
+      <canvas id="mycanvas" width="300" height="300" onmouseover="setImageTwo()" onmouseout="setImageOne()">
+        <p>No Canvas Support in Browser</p>
+      </canvas>
+    </div>
+	Move mouse over and out of box to view images
+  </body>
+</html>

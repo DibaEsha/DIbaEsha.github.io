@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esha Karim's Webpage</title>
+    <link rel="icon" href="favicon_de.ico" type="image/x-icon">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="mystyle.css">
+</head>
+<body>
+
+    <header>
+        <h1>Welcome to Esha Karim’s Webpage</h1>
+    </header>
+
+    <main class="container">
+        <section>
+            <h2>What is this?</h2>
+            <p>This is a simple page created by Esha Karim.</p>
+            <p>As part of the GIST 7130 Course.</p>
+        </section>
+
+        <section>
+            <h2>Why is this?</h2>
+            <p>For me to practice HTML, CSS, and JavaScript Coding.</p>
+            <p>To show off the skills that I have gained in webpage development.</p>
+            <p>To do fun things with HTML.</p>
+        </section>
+
+        <section>
+             <h2>HTML Learning Resources</h2>
+             <div class="tutorials">
+                <div class="tutorial-item">
+                   <h3>HTMLDog</h3>
+                    <a href="https://www.htmldog.com/guides/html/" target="_blank">
+                        <img src="htmldog_logo.png" alt="HTMLDog Logo" class="logo-link">
+                    </a>
+                </div>
+                <div class="tutorial-item">
+                    <h3>HTML.com</h3>
+                    <a href="https://html.com/" target="_blank">
+                        <img src="html_com_logo.webp" alt="HTML.com Logo" class="logo-link">
+                    </a>
+                </div>
+                <div class="tutorial-item">
+                    <h3>W3 Schools</h3>
+                    <a href="https://www.w3schools.com/html/" target="_blank">
+                        <img src="W3Schools_logo.png" alt="W3Schools Logo" class="logo-link">
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>My Top 3 BCIT Courses in 2025-2026</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Course</th>
+                        <th>Focus</th>
+                        <th>Toolkit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>GIST 7130</td>
+                        <td>GIS Computing and the Internet</td>
+                        <td>HTML, CSS, JavaScript, PHP, LEAFLET, CHART, QGIS, QGIS Server, ArcGIS Online Web Experience</td>
+                    </tr>
+                    <tr>
+                        <td>GIST 7132</td>
+                        <td>GIS Database Management</td>
+                        <td>SQL, pgAdmin4, pgmodeler, Libreoffice base</td>
+                    </tr>
+                    <tr>
+                        <td>GIST 7111</td>
+                        <td>CAD for GIS</td>
+                        <td>AutoCAD, Civil 3D</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="interactive-section">
+            <h2>Interactive Elements</h2>
+            <div id="datetime-container">
+                <p><span id="date-display"></span> at <span id="time-display"></span></p>
+            </div>
+            <p id="colorChangeText">Click the button below to change the color of this text.</p>
+            <button id="changeColorBtn" class="button">Change Color</button>
+            <p>Hover over the image below to reveal a BCIT campus map.</p>
+            <img id="hoverImage" src="BCIT_image.jpg" alt="BCIT Building">
+        </section>
+    </main>
+    
+    <script src="myscript.js"></script>
+
+</body>
+</html>

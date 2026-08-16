@@ -1,0 +1,13 @@
+arial ./ARIAL.TTF
+luximbi ./luximbi.ttf
+luximb ./luximb.ttf
+luximri ./luximri.ttf
+luximr ./luximr.ttf
+luxirbi ./luxirbi.ttf
+luxirb ./luxirb.ttf
+luxirri ./luxirri.ttf
+luxirr ./luxirr.ttf
+luxisbi ./luxisbi.ttf
+luxisb ./luxisb.ttf
+luxisri ./luxisri.ttf
+luxisr ./luxisr.ttf
