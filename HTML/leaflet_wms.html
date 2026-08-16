@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>QGIS WMS Integration</title>
+    <link rel="icon" href="../data/DibaEsha.ico" type="image/x-icon" />
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <link rel="stylesheet" href="../css/styles.css" />
+
+    <style>
+        /* Dark Theme & Layout Styles */
+        html, body {
+            height: 100%;
+            margin: 0;
+            background-color: var(--primary-navy, #001f3f); 
+            overflow: hidden;
+        }
+        
+        #map { 
+            width: 100%; 
+            height: calc(100vh - 130px);
+            margin-top: 76px;
+            border-top: 2px solid var(--accent-neon, #00f2ff);
+            box-sizing: border-box; 
+            z-index: 1;
+        }
+
+        /* Dark Mode Layer Control */
+        .leaflet-control-layers {
+            background: rgba(0, 31, 63, 0.9);
+            color: #fff;
+            border: 1px solid var(--accent-neon, #00f2ff);
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        
+        /* Iframe adjustments */
+        .in-iframe nav { display: none !important; }
+        .in-iframe #map { height: 100vh !important; margin-top: 0 !important; border-top: none !important; }
+        .in-iframe footer { display: none !important; }
+
+        /* Footer Positioning */
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: auto;
+            z-index: 1000;
+            background: rgba(0, 31, 63, 0.95);
+            border-top: 1px solid var(--accent-neon, #00f2ff);
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background: rgba(0, 31, 63, 0.95); border-bottom: 1px solid var(--accent-neon, #00f2ff);">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <i class="fa-solid fa-earth-americas"></i> BCIT GIS
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample04">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarsExample04">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                <li class="nav-item"><a class="nav-link" href="../index.html"><i class="fa-solid fa-house"></i> Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="education.html"><i class="fa-solid fa-graduation-cap"></i> Education</a></li>
+                <li class="nav-item"><a class="nav-link" href="Courses.html"><i class="fa-solid fa-book-open"></i> Courses</a></li>
+                <li class="nav-item"><a class="nav-link" href="software.html"><i class="fa-solid fa-laptop-code"></i> Software</a></li>
+                <li class="nav-item"><a class="nav-link active" href="mapgallery.html"><i class="fa-solid fa-map-location-dot"></i> Gallery</a></li>
+                <li class="nav-item"><a class="nav-link" href="learning.html"><i class="fa-solid fa-lightbulb"></i> Learning</a></li>
+                <li class="nav-item"><a class="nav-link" href="contact.html"><i class="fa-solid fa-envelope"></i> Contact</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div id="map"></div>
+
+<footer class="footer py-3 text-center">
+    <div class="container">
+        <span class="text">
+            &copy; This web page was constructed by referring to several resources including former BCIT GIS Professor, Carmen Heaver; current BCIT GIS Professor, Marikka Williams; Code Snippets from "Bootstrap Examples 5.3.x" Accessed September 19, 2025. <a href="https://getbootstrap.com/docs/5.3/examples/" target="_blank">https://getbootstrap.com/docs/5.3/examples/</a>; HTML Dog. "HTML Dog Tutorials" Accessed September 15, 2025. <a href="https://htmldog.com/" target="_blank">https://htmldog.com/</a>; HTML.com "HTML For Beginners The Easy Way: Start Learning HTML & CSS Today" Accessed September 15, 2025. <a href="https://html.com/" target="_blank">https://html.com/</a> and W3 Schools "HTML Tutorials" Accessed September 15, 2025. <a href="https://www.w3schools.com/html/" target="_blank">https://www.w3schools.com/html/</a>. &#x24B8;2025 Esha Karim.
+            <br><small>Cover Photo: NASA/Unsplash</small>
+        </span>
+    </div>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // 1. Define Base Maps
+    
+    // OpenStreetMap
+    const osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap'
+    });
+
+    // Light Gray Canvas (Esri)
+    const lightGray = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
+        maxZoom: 16
+    });
+
+    // Carto Light (Positron) - This is the "Normal" Carto map
+    const cartoLight = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; OpenStreetMap &copy; CARTO',
+        subdomains: 'abcd',
+        maxZoom: 20
+    });
+
+    // 2. Initialize Map
+    // Start with OpenStreetMap by default
+    const map = L.map('map', {
+        center: [49.17, -123.13], // Centered on Richmond/Vancouver
+        zoom: 12,
+        layers: [osm] 
+    });
+
+    // 3. Define WMS Layers
+    // Your Project Path: /data/students/ekarim4/QGIS/myQGIS.qgs
+    const wmsUrl = 'https://gisweb.soce.bcit.ca/qgis-server?MAP=/data/students/ekarim4/QGIS/myQGIS.qgs';
+    const wmsAttrib = '© BCIT GIS Students';
+
+    // Layer 1: Placenames
+    const placenameLayer = L.tileLayer.wms(wmsUrl, {
+        layers: 'Placename (OSM)',
+        format: 'image/png',
+        transparent: true,
+        attribution: wmsAttrib
+    });
+
+    // Layer 2: Buildings
+    const buildingLayer = L.tileLayer.wms(wmsUrl, {
+        layers: 'Building (NRCAN)',
+        format: 'image/png',
+        transparent: true,
+        attribution: wmsAttrib
+    });
+
+    // Layer 3: Schools
+    const schoolsLayer = L.tileLayer.wms(wmsUrl, {
+        layers: 'Schools',
+        format: 'image/png',
+        transparent: true,
+        attribution: wmsAttrib
+    });
+
+    // Layer 4: Roads
+    const roadLayer = L.tileLayer.wms(wmsUrl, {
+        layers: 'Roads (OSM)',
+        format: 'image/png',
+        transparent: true,
+        attribution: wmsAttrib
+    });
+
+    // Layer 5: Water
+    const waterLayer = L.tileLayer.wms(wmsUrl, {
+        layers: 'Waterbody (OSM)',
+        format: 'image/png',
+        transparent: true,
+        attribution: wmsAttrib
+    });
+
+    // Layer 6: Census
+    const censusLayer = L.tileLayer.wms(wmsUrl, {
+        layers: 'Census(2021)', 
+        format: 'image/png',
+        transparent: true,
+        attribution: wmsAttrib
+    });
+
+    // 4. Create Layer Controls
+    // Base Maps (Radio Buttons)
+    const baseMaps = {
+        "OpenStreetMap": osm,
+        "Light Gray": lightGray,
+        "Carto Light": cartoLight
+    };
+
+    // Overlay Maps (Checkboxes)
+    const overlayMaps = {
+        "Placenames": placenameLayer,
+        "Schools": schoolsLayer,
+        "Buildings": buildingLayer,
+        "Roads": roadLayer,
+        "Water Bodies": waterLayer,
+        "Census Data": censusLayer
+    };
+
+    // Add the control to the map
+    L.control.layers(baseMaps, overlayMaps).addTo(map);
+
+    // 5. Add default layers
+    censusLayer.addTo(map);
+    waterLayer.addTo(map);
+    roadLayer.addTo(map);
+    schoolsLayer.addTo(map);
+    placenameLayer.addTo(map);
+
+    // 6. Scale Control
+    L.control.scale({ imperial: false }).addTo(map);
+
+    // 7. Click Interaction
+    const popup = L.popup();
+    function onMapClick(e) {
+        popup
+            .setLatLng(e.latlng)
+            .setContent("Coordinates: " + e.latlng.toString())
+            .openOn(map);
+    }
+    map.on('click', onMapClick);
+
+    // Iframe Detection
+    if (window.self !== window.top) {
+        document.body.classList.add('in-iframe');
+    }
+</script>
+
+</body>
+</html>

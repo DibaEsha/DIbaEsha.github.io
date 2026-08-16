@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Esha Karim - Map Gallery</title>
+		<link rel="icon" href="../data/DibaEsha.ico" type="image/x-icon" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="../css/styles.css" />
+        <style>
+            /* Custom 3D Button Effects for this page */
+            .btn-map-control {
+                transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+                border: none;
+                font-weight: 800;
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            }
+            
+            .btn-origin {
+                background: linear-gradient(145deg, #006a4e, #004d38);
+                color: white;
+            }
+            .btn-origin:hover {
+                transform: scale(1.2) rotate(-3deg);
+                box-shadow: 0 0 30px #006a4e;
+                z-index: 10;
+            }
+            
+            .btn-habitat {
+                background: linear-gradient(145deg, #d8292f, #ac2026);
+                color: white;
+            }
+            .btn-habitat:hover {
+                transform: scale(1.2) rotate(3deg);
+                box-shadow: 0 0 30px #d8292f;
+                z-index: 10;
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <i class="fa-solid fa-earth-americas"></i> BCIT GIS
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample04">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarsExample04">
+                    <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                        <li class="nav-item"><a class="nav-link" href="../index.html"><i class="fa-solid fa-house"></i> Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="education.html"><i class="fa-solid fa-graduation-cap"></i> Education</a></li>
+                        <li class="nav-item"><a class="nav-link" href="courses.html"><i class="fa-solid fa-book-open"></i> Courses</a></li>
+                        <li class="nav-item"><a class="nav-link" href="software.html"><i class="fa-solid fa-laptop-code"></i> Software</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="mapgallery.html"><i class="fa-solid fa-map-location-dot"></i> Gallery</a></li>
+                        <li class="nav-item"><a class="nav-link" href="learning.html"><i class="fa-solid fa-lightbulb"></i> Learning</a></li>
+                        <li class="nav-item"><a class="nav-link" href="contact.html"><i class="fa-solid fa-envelope"></i> Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <header class="header" style="background-image: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=2074&auto=format&fit=crop'); background-size: cover; background-position: center; min-height: 50vh; padding-top: 80px;">
+            <div class="text-center py-5">
+                <!-- Added Glow Effect here -->
+                <h1 class="display-3 fw-bold text-white mt-5" style="text-shadow: 0 0 20px var(--accent-neon);">Map Gallery</h1>
+                <p class="fs-4 text-light">Visualizing the World</p>
+            </div>
+        </header>
+
+        <div class="container my-5">
+            <div class="card p-2">
+                <div class="ratio ratio-16x9 rounded-3 overflow-hidden border border-secondary">
+                    <iframe
+                        id="googleMap"
+                        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d34346452.75681648!2d-2.437500000000032!3d49.88750107699413!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sen!2sca!4v1729445258869!5m2!1sen!2sca"
+                        width="100%"
+                        height="450"
+                        style="border:0;"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        title="My Google Map"
+                    ></iframe>
+                </div>
+            </div>
+            
+            <div class="text-center py-5 d-flex justify-content-center gap-4">
+                <button id="btnOrigin" class="btn btn-lg px-5 py-3 btn-map-control btn-origin">
+                    <i class="fa-solid fa-plane-departure"></i> Origin
+                </button>
+                <button id="btnHabitat" class="btn btn-lg px-5 py-3 btn-map-control btn-habitat">
+                    <i class="fa-brands fa-canadian-maple-leaf"></i> Habitat
+                </button>
+            </div>
+        </div>
+
+        <footer class="footer mt-auto py-4 text-center">
+            <div class="container">
+                <span class="text-muted">&copy; 2025 Esha Karim.</span>
+            </div>
+        </footer>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="../javascript/map.js" defer></script>
+    
+        <footer class="footer small text-center">
+            <div class="container">
+                <span class="text">
+                    &copy; This web page was constructed by referring to several resources including former BCIT GIS Professor, Carmen Heaver; current BCIT GIS Professor, Marikka Williams; Code Snippets from "Bootstrap Examples 5.3.x" Accessed September 19, 2025. https://getbootstrap.com/docs/5.3/examples/; HTML Dog. "HTML Dog Tutorials" Accessed September 15, 2025. https://htmldog.com/; HTML.com "HTML For Beginners The Easy Way: Start Learning HTML & CSS Today" Accessed September 15, 2025. https://html.com/ and W3 Schools "HTML Tutorials" Accessed September 15, 2025. https://www.w3schools.com/html/. &#x24B8;2025 Esha Karim.
+                </span>
+            </div>
+        </footer>
+	</body>
+</html>

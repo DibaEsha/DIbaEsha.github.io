@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Esha Karim - Contact</title>
+		<link rel="icon" href="../data/DibaEsha.ico" type="image/x-icon" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="../css/styles.css" />
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <i class="fa-solid fa-earth-americas"></i> BCIT GIS
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample04">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarsExample04">
+                    <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                        <li class="nav-item"><a class="nav-link" href="../index.html"><i class="fa-solid fa-house"></i> Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="education.html"><i class="fa-solid fa-graduation-cap"></i> Education</a></li>
+                        <li class="nav-item"><a class="nav-link" href="courses.html"><i class="fa-solid fa-book-open"></i> Courses</a></li>
+                        <li class="nav-item"><a class="nav-link" href="software.html"><i class="fa-solid fa-laptop-code"></i> Software</a></li>
+                        <li class="nav-item"><a class="nav-link" href="mapgallery.html"><i class="fa-solid fa-map-location-dot"></i> Gallery</a></li>
+                        <li class="nav-item"><a class="nav-link" href="learning.html"><i class="fa-solid fa-lightbulb"></i> Learning</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="contact.html"><i class="fa-solid fa-envelope"></i> Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <header class="header" style="background-image: url('https://images.unsplash.com/photo-1516387938699-a93567ec168e?q=80&w=2071&auto=format&fit=crop'); background-size: cover; background-position: center; min-height: 50vh; padding-top: 80px;">
+            <div class="text-center py-5">
+                <!-- Added Glow Effect here -->
+                <h1 class="display-3 fw-bold text-white mt-5" style="text-shadow: 0 0 20px var(--accent-neon);">Get In Touch</h1>
+                <p class="fs-4 text-light">Let's Collaborate</p>
+            </div>
+        </header>
+
+        <div class="container col-md-8 col-lg-6 my-5">
+             <div class="form-container p-5">
+                <div class="text-center mb-4">
+                    <i class="fa-solid fa-paper-plane fa-3x text-primary mb-3"></i>
+                    <h2>Send a Message</h2>
+                </div>
+                
+                <div id="statusMessage"></div>
+                
+                <form action="../PHP/contact.php" method="POST">
+                    <div class="mb-3">
+                        <label for="name" class="form-label fw-bold">Name</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="fa-solid fa-user"></i></span>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required />
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label fw-bold">Email</label>
+                         <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="fa-solid fa-at"></i></span>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required />
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="subject" class="form-label fw-bold">Subject</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="fa-solid fa-tag"></i></span>
+                            <input type="text" class="form-control" id="subject" name="subject" placeholder="Enter subject" required />
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="message" class="form-label fw-bold">Message</label>
+                        <textarea class="form-control" id="message" name="message" rows="4" placeholder="Enter your message" required></textarea>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg mt-3">Send Message <i class="fa-solid fa-arrow-right"></i></button>
+                    </div>
+                </form>
+             </div>
+        </div>
+
+        <footer class="footer small text-center">
+            <div class="container">
+                <span class="text">
+                    &copy; This web page was constructed by referring to several resources including former BCIT GIS Professor, Carmen Heaver; current BCIT GIS Professor, Marikka Williams; Code Snippets from "Bootstrap Examples 5.3.x" Accessed September 19, 2025. https://getbootstrap.com/docs/5.3/examples/; HTML Dog. "HTML Dog Tutorials" Accessed September 15, 2025. https://htmldog.com/; HTML.com "HTML For Beginners The Easy Way: Start Learning HTML & CSS Today" Accessed September 15, 2025. https://html.com/ and W3 Schools "HTML Tutorials" Accessed September 15, 2025. https://www.w3schools.com/html/. &#x24B8;2025 Esha Karim.
+                </span>
+            </div>
+        </footer>
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+        
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const urlParams = new URLSearchParams(window.location.search);
+                const status = urlParams.get('status');
+                const msgDiv = document.getElementById('statusMessage');
+                
+                if (status === 'success') {
+                    msgDiv.innerHTML = '<div class="alert alert-success shadow-sm border-0" role="alert"><i class="fa-solid fa-circle-check"></i> <strong>Thank you!</strong> Your message has been sent.</div>';
+                } else if (status === 'error') {
+                    msgDiv.innerHTML = '<div class="alert alert-danger shadow-sm border-0" role="alert"><i class="fa-solid fa-triangle-exclamation"></i> <strong>Error!</strong> Please check your inputs.</div>';
+                }
+            });
+        </script>
+    </body>
+</html>

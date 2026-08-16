@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Esha Karim - Vancouver Climate Summary</title>
+        <link rel="icon" href="../data/DibaEsha.ico" type="image/x-icon" />
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+        <link rel="stylesheet" href="../css/styles.css" />
+        
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <style>
+            /* Page Specific Styles */
+            .chart-card, .map-card, .table-card {
+                background: rgba(255, 255, 255, 0.9);
+                backdrop-filter: blur(12px);
+                border: 1px solid rgba(0, 242, 255, 0.3);
+                border-radius: 16px;
+                padding: 1rem; /* Slightly less padding for denser grid */
+                height: 100%;
+                box-shadow: 0 5px 15px rgba(0, 31, 63, 0.2);
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .chart-container {
+                flex-grow: 1;
+                position: relative;
+                min-height: 200px; /* Ensure charts have height */
+            }
+
+            #vancouverMap {
+                height: 100%; /* Takes full height of parent card */
+                min-height: 75vh; /* Minimum height ensures it looks good */
+                width: 100%;
+                border-radius: 12px;
+                border: 2px solid var(--accent-neon);
+            }
+
+            /* Scrollable Table Container ONLY */
+            .table-scroll-container {
+                max-height: 250px; /* Fixed height for scroll */
+                overflow-y: auto;
+            }
+
+            /* Custom Scrollbar for Table */
+            .table-scroll-container::-webkit-scrollbar {
+                width: 8px;
+            }
+            .table-scroll-container::-webkit-scrollbar-track {
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 4px;
+            }
+            .table-scroll-container::-webkit-scrollbar-thumb {
+                background: var(--accent-neon);
+                border-radius: 4px;
+            }
+
+            h2, h3, h4 {
+                color: var(--primary-navy);
+                font-size: 1.1rem; /* Smaller headers for compact view */
+                font-weight: 700;
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <i class="fa-solid fa-earth-americas"></i> BCIT GIS
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample04">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarsExample04">
+                    <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                        <li class="nav-item"><a class="nav-link" href="../index.html"><i class="fa-solid fa-house"></i> Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="education.html"><i class="fa-solid fa-graduation-cap"></i> Education</a></li>
+                        <li class="nav-item"><a class="nav-link" href="courses.html"><i class="fa-solid fa-book-open"></i> Courses</a></li>
+                        <li class="nav-item"><a class="nav-link" href="software.html"><i class="fa-solid fa-laptop-code"></i> Software</a></li>
+                        <li class="nav-item"><a class="nav-link" href="mapgallery.html"><i class="fa-solid fa-map-location-dot"></i> Gallery</a></li>
+                        <li class="nav-item"><a class="nav-link" href="learning.html"><i class="fa-solid fa-lightbulb"></i> Learning</a></li>
+                        <li class="nav-item"><a class="nav-link" href="contact.html"><i class="fa-solid fa-envelope"></i> Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <header class="header" style="background-image: url('https://images.unsplash.com/photo-1559827291-72ee739d0d9a?q=80&w=2070&auto=format&fit=crop'); background-size: cover; background-position: center; min-height: 20vh; padding-top: 80px;">
+            <div class="text-center py-4">
+                <h1 class="display-4 fw-bold text-white mt-3" style="text-shadow: 0 0 20px var(--accent-neon);">Vancouver Climate Summary</h1>
+            </div>
+        </header>
+
+        <div class="container-fluid my-4 px-4">
+            <div class="row g-4">
+                <!-- Left Column: Map (Takes full height) -->
+                <div class="col-lg-6">
+                    <div class="map-card h-100 p-0 overflow-hidden">
+                        <div id="vancouverMap"></div>
+                    </div>
+                </div>
+
+                <!-- Right Column: 2x2 Grid of Charts -->
+                <div class="col-lg-6">
+                    <div class="row g-3 h-100">
+                        
+                        <!-- Top Left: Bar Chart -->
+                        <div class="col-md-6" style="height: 40vh;">
+                            <div class="chart-card">
+                                <h4 class="text-center mb-2">Precipitation (Jan-Jun)</h4>
+                                <div class="chart-container">
+                                    <canvas id="precipChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Top Right: Line Chart -->
+                        <div class="col-md-6" style="height: 40vh;">
+                            <div class="chart-card">
+                                <h4 class="text-center mb-2">Avg Daily High Temp</h4>
+                                <div class="chart-container">
+                                    <canvas id="tempLineChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bottom Left: Combined Chart -->
+                        <div class="col-md-6" style="height: 40vh;">
+                            <div class="chart-card">
+                                <h4 class="text-center mb-2">Precip vs Avg Temp</h4>
+                                <div class="chart-container">
+                                    <canvas id="combinedChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bottom Right: Table (Scrollable) -->
+                        <div class="col-md-6" style="height: 40vh;">
+                            <div class="table-card h-100">
+                                <h4 class="text-center mb-2"><i class="fa-solid fa-table text-warning"></i> Avg Daily High (°C)</h4>
+                                <div class="table-scroll-container h-100">
+                                    <table class="table table-hover table-striped text-center align-middle table-sm" id="tempTable">
+                                        <thead class="table-dark sticky-top">
+                                            <tr>
+                                                <th>Month</th>
+                                                <th>Temp</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- JS will populate rows -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-4">
+                 <a href="learning.html" class="btn btn-outline-info btn-lg px-5">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Learning
+                 </a>
+            </div>
+        </div>
+
+        <footer class="footer mt-auto py-4 text-center">
+            <div class="container">
+                <span class="text">
+            &copy; This web page was constructed by referring to several resources including former BCIT GIS Professor, Carmen Heaver; current BCIT GIS Professor, Marikka Williams; Code Snippets from "Bootstrap Examples 5.3.x" Accessed September 19, 2025. <a href="https://getbootstrap.com/docs/5.3/examples/" target="_blank">https://getbootstrap.com/docs/5.3/examples/</a>; HTML Dog. "HTML Dog Tutorials" Accessed September 15, 2025. <a href="https://htmldog.com/" target="_blank">https://htmldog.com/</a>; HTML.com "HTML For Beginners The Easy Way: Start Learning HTML & CSS Today" Accessed September 15, 2025. <a href="https://html.com/" target="_blank">https://html.com/</a> and W3 Schools "HTML Tutorials" Accessed September 15, 2025. <a href="https://www.w3schools.com/html/" target="_blank">https://www.w3schools.com/html/</a>. &#x24B8;2025 Esha Karim.
+                    <br><small>Data Source: Environment and Climate Change Canada</small>
+                </span>
+            </div>
+        </footer>
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+        <script src="../javascript/vancouver_climate_analysis.js"></script>
+    </body>
+</html>
